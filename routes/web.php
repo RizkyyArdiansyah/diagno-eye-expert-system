@@ -5,8 +5,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DiagnosaController;
 
 
-Route::get('/', [DiagnosaController::class, 'index'])->name('home');
-
+Route::get('/', function () {
+    return response()->json(['status' => 'OK'], 200);
+});
 // AUTH (Register & Login)
 Route::post('/register', [UserController::class, 'register'])->name('register.submit');
 Route::get('/login', [DiagnosaController::class, 'index'])->name('login');
@@ -39,6 +40,7 @@ Route::middleware(['auth', 'cekrole:admin'])->group(function () {
 
 // 👤 Route untuk User biasa
 Route::middleware(['auth', 'cekrole:user'])->group(function () {
+    Route::get('/diagnosa', [DiagnosaController::class, 'index'])->name('home');
     Route::post('/diagnosa', [DiagnosaController::class, 'prosesDiagnosa'])->name('diagnosa.proses');
 });
 
