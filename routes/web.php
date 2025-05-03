@@ -39,7 +39,7 @@ Route::middleware(['auth', 'cekrole:admin'])->group(function () {
 
 // 👤 Route untuk User biasa
 Route::middleware(['auth', 'cekrole:user'])->group(function () {
-    Route::get('/diagnosa', [DiagnosaController::class, 'index'])->name('home');
+    Route::get('/diagnosa', [DiagnosaController::class, 'index'])->name('diagnosa.index');
     Route::post('/diagnosa', [DiagnosaController::class, 'prosesDiagnosa'])->name('diagnosa.proses');
 });
 
