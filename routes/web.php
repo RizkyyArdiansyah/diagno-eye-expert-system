@@ -5,9 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DiagnosaController;
 
 
-Route::get('/', function () {
-    return response()->json(['status' => 'OK'], 200);
-});
+Route::get('/', [DiagnosaController::class, 'index'])->name('home');
+
 // AUTH (Register & Login)
 Route::post('/register', [UserController::class, 'register'])->name('register.submit');
 Route::get('/login', [DiagnosaController::class, 'index'])->name('login');
