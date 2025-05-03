@@ -13,5 +13,5 @@ A Laravel-based web application that helps diagnose eye diseases based on sympto
 - Laravel 12  
 - TailwindCSS  
 - MySQL  
-- Laragon (for local development)
+
 
