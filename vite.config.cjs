@@ -1,11 +1,17 @@
-const { defineConfig } = require('vite')
-const laravel = require('laravel-vite-plugin')
+const { defineConfig } = require('vite');
 
-module.exports = defineConfig({
-  plugins: [
-    laravel({
-      input: ['resources/css/app.css', 'resources/js/app.js'],
-      refresh: true,
-    }),
-  ],
-})
+module.exports = defineConfig(async () => {
+    const laravel = await import('laravel-vite-plugin');
+    
+    return {
+        plugins: [
+            laravel.default({
+                input: [
+                    'resources/css/app.css',
+                    'resources/js/app.js',
+                ],
+                refresh: true,
+            }),
+        ],
+    };
+});

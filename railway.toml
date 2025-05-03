@@ -1,9 +1,7 @@
+# For railway.toml
 [build]
 builder = "nixpacks"
 buildCommand = "npm install && npm run build && php artisan optimize"
 
-[deploy]
-startCommand = "php artisan serve --host=0.0.0.0 --port=$PORT"
-healthcheckPath = "/"
-healthcheckTimeout = 100
-restartPolicyType = "on_failure"
+# If you're using Dockerfile, update the RUN command:
+RUN npm install && NODE_OPTIONS='--experimental-json-modules' npm run build && php artisan optimize
