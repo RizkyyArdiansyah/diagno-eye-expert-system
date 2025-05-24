@@ -10,10 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
             once: false,
             mirror: true,
             offset: 70,
-            // Disable di mobile jika perlu
-            disable: function() {
-                return window.innerWidth < 768;
-            }
         });
     }
 });
