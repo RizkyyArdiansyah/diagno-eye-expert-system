@@ -6,9 +6,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sistem Pakar</title>
+    <link rel="icon" href="{{ asset('images/logoSPM.png') }}" type="image/png">
+    <title>DiagnoEye - Sistem Pakar Diagnosa Penyakit Mata -</title>
     <script src="//unpkg.com/alpinejs" defer></script>
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -45,9 +47,12 @@
         <nav class="fixed top-0 left-0 z-50 w-full backdrop-blur-md bg-blue-200/70 shadow-md select-none">
             <div class="container md:max-w-[1200px] px-4 md:px-2 mx-auto py-3">
                 <div class="flex justify-between items-center">
-                    <div x-data="scrollNav()" @click.prevent="scrollToSection('home')" class="flex items-center">
-                        <a href="#beranda" class="text-2xl font-bold text-blue-600">
-                            <span class="text-black">Diagno</span>Eye
+                    <div x-data="scrollNav()" @click.prevent="scrollToSection('home')"
+                        class="flex flex-row items-center">
+                        <a href="#beranda" class="flex items-center text-2xl font-bold">
+                            <span class="text-black">Diagn</span>
+                            <img src="{{ asset('images/logoSPM.png') }}" alt="O" class="size-6 inline-block">
+                            <span class="text-blue-600">Eye</span>
                         </a>
                     </div>
 
@@ -120,6 +125,16 @@
         </nav>
     </header>
 
+    <div id="loading-screen" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
+        <div class="text-center">
+            <!-- Spinner -->
+            <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+
+            <!-- Loading text -->
+            <p class="text-gray-600 text-lg font-medium">Loading...</p>
+        </div>
+    </div>
+
 
     <!-- Pop up konfirmasi ketika user logout -->
     <div>
@@ -145,14 +160,14 @@
                         <p class="text-gray-600 mb-6 text-center">Apakah kamu yakin ingin keluar dari akunmu?</p>
                         <div class="flex justify-center space-x-3">
                             <button @click="showLogoutConfirm = false"
-                                class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 font-medium hover:ring-2 hover:ring-red-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                                class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 font-medium hover:ring-2 hover:ring-red-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 cursor-pointer">
                                 Batal
                             </button>
 
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
-                                    class="px-5 py-2 rounded-lg bg-gradient-to-r from-red-500 to-red-600 text-white font-medium hover:from-red-600 hover:to-red-700 transition-colors duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                                    class="px-5 py-2 rounded-lg bg-gradient-to-r from-red-500 to-red-600 text-white font-medium hover:from-red-600 hover:to-red-700 transition-colors duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500 cursor-pointer">
                                     Ya, Logout
                                 </button>
                             </form>
@@ -221,7 +236,7 @@
 
                     <div class="pt-2">
                         <button type="submit"
-                            class="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-2.5 px-4 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-colors duration-200 font-medium shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            class="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-2.5 px-4 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-colors duration-200 font-medium shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer">
                             Login
                         </button>
                     </div>
@@ -230,7 +245,7 @@
                 <!-- Register link and Cancel button -->
                 <div class="text-center mt-4 flex flex-col space-y-2">
                     <button type="button" @click="showLogin = false"
-                        class="text-gray-500 hover:text-red-600 transition-colors duration-200 text-sm font-medium mb-6">
+                        class="text-gray-500 hover:text-red-600 transition-colors duration-200 text-sm font-medium mb-6 cursor-pointer">
                         Cancel
                     </button>
                     <div class="text-sm text-gray-600">
@@ -334,7 +349,7 @@
 
                     <div class="pt-2">
                         <button type="submit"
-                            class="w-full bg-gradient-to-r from-green-500 to-teal-600 text-white py-2.5 px-4 rounded-lg hover:from-green-600 hover:to-teal-700 transition-colors duration-200 font-medium shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                            class="w-full bg-gradient-to-r from-green-500 to-teal-600 text-white py-2.5 px-4 rounded-lg hover:from-green-600 hover:to-teal-700 transition-colors duration-200 font-medium shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 cursor-pointer">
                             Daftar
                         </button>
                     </div>
@@ -343,7 +358,7 @@
                 <!-- Login link and Cancel button -->
                 <div class="text-center mt-4 flex flex-col space-y-2">
                     <button type="button" @click="showRegister = false"
-                        class="text-gray-500 hover:text-red-600 transition-colors duration-200 text-sm font-medium mb-2">
+                        class="text-gray-500 hover:text-red-600 transition-colors duration-200 text-sm font-medium mb-2 cursor-pointer">
                         Cancel
                     </button>
                 </div>
@@ -378,12 +393,12 @@
                         </p>
                         <div class="flex justify-center space-x-4">
                             <button @click="showLoginPrompt = false"
-                                class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 font-medium hover:ring-red-400 hover:ring-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                                class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 font-medium hover:ring-red-400 hover:ring-2 transition-colors duration-200 focus:outline-none focus:ring-2 cursor-pointer focus:ring-gray-300">
                                 Batal
                             </button>
 
                             <button @click="showLogin = true; showLoginPrompt = false"
-                                class="px-5 py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-700 transition-colors duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                                class="px-5 py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-700 transition-colors duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 cursor-pointer focus:ring-blue-400">
                                 Login Sekarang
                             </button>
                         </div>
@@ -412,8 +427,6 @@
         </div>
     @endif
 
-
-
     <section id="home" class="scroll pt-24 pb-18 bg-white">
         <div class="container mx-auto max-w-7xl px-6 select-none">
             <div class="bg-white min-h-[80vh]">
@@ -422,15 +435,17 @@
 
                     {{-- Kiri: Teks --}}
                     <div class="md:w-1/2">
-                        <h1 class="text-4xl text-center md:text-start font-extrabold text-slate-950 mb-4">
+                        <h1 data-aos="zoom-in"
+                            class="text-4xl text-center md:text-start font-extrabold text-slate-950 mb-4">
                             Cek Mata<span class="text-blue-700 ml-1">Yuk!</span>
                         </h1>
-                        <p class="text-slate-900 text-sm md:text-lg leading-relaxed">
+                        <p data-aos="zoom-in" class="text-slate-900 text-sm md:text-lg leading-relaxed">
                             DiagnoEye adalah sistem pakar berbasis web yang membantu pengguna mengidentifikasi
                             potensi penyakit mata berdasarkan gejala yang dialami. Dengan metode Rule-Based System,
                             aplikasi ini dapat memberikan hasil diagnosa dan solusi awal secara cepat dan akurat.
                         </p>
-                        <a href="#diagnose" @click.prevent="scrollToSection('diagnose')">
+                        <a data-aos="zoom-in" data-aos-delay="400" href="#diagnose"
+                            @click.prevent="scrollToSection('diagnose')">
                             <button
                                 class="bg-blue-500 px-4 py-2 mt-4 md:ml-0 mx-auto flex rounded-md text-slate-50 font-semibold hover:bg-slate-100 hover:text-black transition duration-200 cursor-pointer">
                                 Periksa!
@@ -439,7 +454,7 @@
                     </div>
 
                     {{-- Kanan: Gambar --}}
-                    <div class="items-start md:w-1/2 ">
+                    <div data-aos="fade-left" class="items-start md:w-1/2 ">
                         <img src="{{ asset('images/dokter.png') }}" alt="Dokter Mata"
                             class="w-[32em] h-auto drop-shadow-md">
                     </div>
@@ -453,25 +468,25 @@
 
     <section id="edukasi" class="py-10 bg-gray-100 min-h-screen bg-design select-none">
         <div class="container mx-auto px-10 md:px-20">
-            <h2 class="text-xl md:text-2xl font-bold mt-3 mb-6 text-center text-blue-600">
+            <h2 data-aos="fade-up" class="text-xl md:text-2xl font-bold mt-3 mb-6 text-center text-blue-600">
                 Jaga Kesehatan Mata Anda, Mulai dari Sekarang!
             </h2>
-            <p class="text-md md:text-lg mb-6 text-center text-gray-700">
+            <p data-aos="fade-up" data-aos-delay="200" class="text-md md:text-lg mb-6 text-center text-gray-700">
                 Tonton video edukatif seputar mata — kenali gejala, pelajari pencegahan, dan dapatkan tips menjaga
                 penglihatan Anda tetap optimal setiap hari.
             </p>
 
             <div class="grid md:grid-cols-3 gap-5 md:mt-20">
                 <!-- Video Card -->
-                <div class="bg-white rounded-lg shadow-md p-2">
+                <div data-aos="flip-left" data-aos-delay="200" class="bg-white rounded-lg shadow-md p-2">
                     <div class="video-thumb relative cursor-pointer aspect-video rounded overflow-hidden"
                         data-id="XvqFAQeG750"></div>
                 </div>
-                <div class="bg-white rounded-lg shadow-md p-2">
+                <div data-aos="flip-up" data-aos-delay="200" class="bg-white rounded-lg shadow-md p-2">
                     <div class="video-thumb relative cursor-pointer aspect-video rounded overflow-hidden"
                         data-id="MFA8tDi31LU"></div>
                 </div>
-                <div class="md:mx-auto bg-white rounded-lg shadow-md p-2">
+                <div data-aos="flip-right" data-aos-delay="200" class="md:mx-auto bg-white rounded-lg shadow-md p-2">
                     <div class="video-thumb relative cursor-pointer aspect-video rounded overflow-hidden"
                         data-id="Qwb21ZbRJeM"></div>
                 </div>
@@ -495,16 +510,17 @@
                 x-transition:leave-start="opacity-100 transform translate-y-0"
                 x-transition:leave-end="opacity-0 transform -translate-y-4">
 
-                <h2 class="text-xl md:text-2xl font-bold mb-2 md:mb-3 text-center text-blue-600">
+                <h2 data-aos="fade-up" class="text-xl md:text-2xl font-bold mb-2 md:mb-3 text-center text-blue-600">
                     Diagnosa Penyakit Mata
                 </h2>
 
-                <p class="md:text-lg mb-2 md:mb-6 text-center text-gray-700">
+                <p data-aos="fade-up" data-aos-delay="200" class="md:text-lg mb-2 md:mb-6 text-center text-gray-700">
                     Silakan centang gejala yang Anda alami, lalu klik tombol diagnosa.
                 </p>
 
                 <!-- Form Diagnosa -->
-                <form method="POST" action="{{ route('diagnosa.proses') }}#diagnose" @submit="isLoading = true">
+                <form data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="500" method="POST"
+                    action="{{ route('diagnosa.proses') }}#diagnose" @submit="isLoading = true">
                     @csrf
                     <div
                         class="overflow-y-auto max-h-[400px] p-4 md:p-6 bg-white rounded-xl text-sm shadow-lg shadow-blue-200 mb-6 transition-all duration-300 hover:shadow-xl">
@@ -541,8 +557,9 @@
                                 </span>
                             </button>
                         @else
-                            <button @click="showLoginPrompt = true" type="button"
-                                class="bg-blue-500 font-semibold text-white px-6 py-3 rounded-lg shadow-md shadow-blue-300 hover:bg-blue-600 hover:shadow-lg transform transition-all duration-300 hover:-translate-y-1">
+                            <button data-aos="zoom-in" data-aos-anchor-placement="top-bottom" data-aos-delay="400"
+                                @click="showLoginPrompt = true" type="button"
+                                class="bg-blue-500 cursor-pointer font-semibold text-white px-6 py-3 rounded-lg shadow-md shadow-blue-300 hover:bg-blue-600 hover:shadow-lg transform transition-all duration-300 hover:-translate-y-1">
                                 Diagnosa
                             </button>
                         @endauth
@@ -748,7 +765,7 @@
                         <p class="text-gray-800 text-sm">
                             Menjaga kesehatan mata penting untuk mencegah gangguan penglihatan. Beberapa tips yang bisa
                             diterapkan:
-                        <ul class="list-disc list-inside mt-2 text-gray-800">
+                        <ul class="list-disc list-inside mt-2 text-gray-800 text-sm">
                             <li>Istirahatkan mata setiap 20 menit saat menatap layar (aturan 20-20-20).</li>
                             <li>Konsumsi makanan yang kaya vitamin A, C, dan E seperti wortel, bayam, dan ikan berlemak.
                             </li>
@@ -878,6 +895,8 @@
             });
         });
     </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 
 
